@@ -1,3 +1,9 @@
 /* body {
   background: blue;
 } */
+.column {
+  display: flex;
+  flex-direction: column;
+  /* width: 500px; */
+  align-items: center;
+}
