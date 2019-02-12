@@ -8,15 +8,15 @@ class Weather extends React.Component {
     return (
       <div>
         <div className="column">
-          {this.props.name && this.props.region && (
-            <p>
-              Location:{this.props.name},{this.props.region}
-            </p>
-          )}
-          {this.props.temperature && (
-            <p>Temperature: {this.props.temperature}</p>
-          )}
-          {this.props.condition && <p>Condition: {this.props.condition}</p>}
+          <h1>
+            {this.props.name},{this.props.region}
+          </h1>
+
+          <img src={this.props.icon} />
+
+          <p>{this.props.temperature}</p>
+
+          <p>{this.props.condition}</p>
         </div>
       </div>
     );

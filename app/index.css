@@ -1,6 +1,11 @@
 /* body {
   background: blue;
 } */
+
+ul {
+  padding: 0;
+}
+
 .column {
   display: flex;
   flex-direction: column;
@@ -10,6 +15,7 @@
 
 .row {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -18,7 +24,7 @@
   justify-content: space-around;
 }
 
-.forecast-item {
+.forecast-item .icon {
   margin: 20px;
   display: flex;
   flex-direction: column;
