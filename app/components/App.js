@@ -2,27 +2,20 @@ var React = require("react");
 var Form = require("./Form");
 var Weather = require("./Weather");
 var axios = require("axios");
-// var Forecast = require("./Forecast");
+var Forecast = require("./Forecast");
 
 var apiKey = "fc574e0b7722432589364140190802";
 
 class App extends React.Component {
-  //   getWeather = async e => {
-  //     e.preventDefault();
-  //     const api_call = await fetch(
-  //       `http://api.apixu.com/v1/current.json?key=${apiKey}&q=paris`
-  //     );
-  //     const data = await api_call.json();
-  //     console.log(data);
-  //   };
   constructor(props) {
     super(props);
 
     this.state = {
-      temperature: undefined,
-      name: undefined,
-      region: undefined,
-      condition: undefined
+      temperature: "",
+      name: "",
+      region: "",
+      condition: "",
+      date: ""
     };
 
     this.fetchWeather = this.fetchWeather.bind(this);
@@ -52,36 +45,41 @@ class App extends React.Component {
           )
           .then(res => {
             console.log(res.data);
+            this.setState(function() {
+              var forecast = res.data.forecast.forecastday;
+              return {
+                date: forecast.map(function(forecast, index) {
+                  return (
+                    <ul>
+                      <li key={forecast.date} className="forecast-item">
+                        {forecast.date}
+                      </li>
+                      <li key={forecast} className="forecast-item">
+                        {forecast.day.maxtemp_f} / {forecast.day.mintemp_f}
+                      </li>
+                    </ul>
+                  );
+                })
+
+                // date: res.data.forecast.forecastday[0].date,
+                // temp: res.data.current.temp_f
+              };
+            });
           });
       });
   }
 
-  // fetchForecast(e) {
-  //   e.preventDefault();
-  //   const city = e.target.elements.city.value;
-
-  //   return axios
-  //     .get(`http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}`)
-  //     .then(res => {
-  //       console.log(res.data);
-  //     });
-  // }
-
-  // function() {
-  //   axios.all([fetchWeather(), fetchForecast()]).then(
-  //     axios.spread(function() {
-  //       // Both requests are now complete
-  //       console.log(res.data);
-  //     })
-  //   );
-  // }
+  fetchData() {
+    // fetch weather
+    // fetch forecast
+  }
 
   render() {
     return (
       <div>
         <Form
           fetchWeather={this.fetchWeather}
-          fetchForecast={this.fetchForecast}
+          // fetchForecast={this.fetchForecast}
         />
         <Weather
           name={this.state.name}
@@ -89,7 +87,7 @@ class App extends React.Component {
           temperature={this.state.temperature}
           condition={this.state.condition}
         />
-        {/* <Forecast /> */}
+        <Forecast date={this.state.date} />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-// var React = require("react");
+var React = require("react");
 
 // // axios.get(
 // //     `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}`
@@ -12,3 +12,26 @@
 // }
 
 // module.exports = Forecast;
+
+class Forecast extends React.Component {
+  //   constructor(props) {
+  //     super(props);
+
+  //     this.state = {
+  //       date: ""
+  //     };
+  //   }
+
+  render() {
+    return (
+      <div>
+        <div className="row">
+          {this.props.date}
+          {/* <li>{this.props.temp}</li> */}
+        </div>
+      </div>
+    );
+  }
+}
+
+module.exports = Forecast;
