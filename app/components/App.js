@@ -6,21 +6,6 @@ var Forecast = require("./Forecast");
 
 var apiKey = "fc574e0b7722432589364140190802";
 
-function Week(date) {
-  var days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-  ];
-  var d = new Date(date);
-  // console.log(d)
-  return days[d.getDay()];
-}
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +15,7 @@ class App extends React.Component {
       name: "",
       region: "",
       condition: "",
-      date: ""
+      forecastArr: []
     };
 
     this.fetchWeather = this.fetchWeather.bind(this);
@@ -40,9 +25,8 @@ class App extends React.Component {
     e.preventDefault();
     const city = e.target.elements.city.value;
 
-    return axios
+    axios
       .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`)
-
       .then(res => {
         console.log(res.data);
         // console.log(res.data.location.name);
@@ -55,36 +39,16 @@ class App extends React.Component {
             condition: res.data.current.condition.text
           };
         });
+
         axios
           .get(
             `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`
           )
           .then(res => {
-            console.log(res.data);
-            this.setState(function() {
-              var forecast = res.data.forecast.forecastday;
-              return {
-                date: forecast.map(function(forecast) {
-                  return (
-                    <ul key={forecast.date}>
-                      <h2 className="forecast-item">{Week(forecast.date)}</h2>
-                      <li className="forecast-item">
-                        {forecast.day.maxtemp_f} / {forecast.day.mintemp_f}
-                      </li>
-                      <li className="forecast-item">
-                        {forecast.day.condition.text}
-                      </li>
-                      <img
-                        className="icon forecast-item"
-                        src={forecast.day.condition.icon}
-                      />
-                    </ul>
-                  );
-                })
+            console.log(res.data.forecast.forecastday);
 
-                // date: res.data.forecast.forecastday[0].date,
-                // temp: res.data.current.temp_f
-              };
+            this.setState({
+              forecastArr: res.data.forecast.forecastday
             });
           });
       });
@@ -104,7 +68,7 @@ class App extends React.Component {
           condition={this.state.condition}
           icon={this.state.icon}
         />
-        <Forecast date={this.state.date} />
+        <Forecast forecastArr={this.state.forecastArr} />
       </div>
     );
   }
