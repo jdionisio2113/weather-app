@@ -1,36 +1,57 @@
 var React = require("react");
 
 // class Weather extends React.Component {
-function Weather(props) {
-  //   constructor(props) {
-  //     super(props);
-  //   }
-  //   render() {
-  return (
-    <div>
-      <div className="column">
-        {/* {this.props.name && this.props.region && (
-            <h1>
-              {this.props.name} ,{this.props.region}
-            </h1>
-          )} */}
-        <div className="location">
-          <h1 className="city">{props.name}</h1>
-          <h3 className="region">{props.region}</h3>
-        </div>
-        <div className="weather-container">
-          <img src={props.icon} />
-          <div className="curr-weather-info">
-            {props.temperature && (
-              <p className="current-temp">{props.temperature}º</p>
-            )}
-            <p className="current-codition">{props.condition}</p>
+function Weather({ todaysWeather, error, celsiusOrFahrenheit }) {
+  // if todaysWeather is an empty object
+  // dont attempt to renderk html
+  //   if stement, storevariable, calls
+
+  if (Object.keys(todaysWeather).length === 0) {
+    return null;
+  } else {
+    {
+      /*
+                    if celsiusOrFahrenheight is f
+                        render farehnheit property from todaysweather
+                    otherwise
+                        render the celsius property
+                
+                */
+    }
+    var value;
+    if (celsiusOrFahrenheit === " ºF") {
+      value = <p className="current-temp">{todaysWeather.current.temp_f}</p>;
+    } else {
+      value = <p className="current-temp">{todaysWeather.current.temp_c}</p>;
+    }
+    return (
+      <div>
+        <div className="column">
+          {todaysWeather.location.name && todaysWeather.location.region && (
+            <div className="location">
+              <h1 className="city">{todaysWeather.location.name}</h1>
+              <h3 className="region">{todaysWeather.location.region}</h3>
+              <h5 className="today">Today</h5>
+            </div>
+          )}
+          <div className="weather-container">
+            <img
+              className="current-icon"
+              src={todaysWeather.current.condition.icon}
+            />
+
+            <div className="curr-weather-info">
+              {value}
+              <p className="current-temp">{celsiusOrFahrenheit}</p>
+              <p className="current-condition">
+                {todaysWeather.current.condition.text}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-  //   }
+    );
+  }
 }
 
 module.exports = Weather;

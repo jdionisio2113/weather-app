@@ -6,24 +6,44 @@ var Forecast = require("./Forecast");
 
 var apiKey = "fc574e0b7722432589364140190802";
 
+const ChangeDegreeTypeButton = ({ updateType }) => {
+  return (
+    <button className="unit-button" onClick={updateType}>
+      change
+    </button>
+  );
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      temperature: "",
-      name: "",
-      region: "",
-      condition: "",
-      forecastArr: []
+      forecastArr: [],
+      error: false,
+      loading: false,
+
+      celsiusOrFahrenheit: " ºF" /* either "c" or "f" */,
+      todaysWeather: {}
     };
 
     this.fetchWeather = this.fetchWeather.bind(this);
+    this.changeCelsiusOrFahrenheit = this.changeCelsiusOrFahrenheit.bind(this);
+  }
+
+  changeCelsiusOrFahrenheit() {
+    if (this.state.celsiusOrFahrenheit === " ºF") {
+      this.setState({ celsiusOrFahrenheit: " ºC" });
+    } else {
+      this.setState({ celsiusOrFahrenheit: " ºF" });
+    }
   }
 
   fetchWeather(e) {
     e.preventDefault();
     const city = e.target.elements.city.value;
+
+    // axios.all([currentWeather(), weeklyForecast()]).then;
 
     axios
       .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`)
@@ -32,11 +52,8 @@ class App extends React.Component {
         // console.log(res.data.location.name);
         this.setState(function() {
           return {
-            temperature: res.data.current.temp_f,
-            name: res.data.location.name,
-            region: res.data.location.region,
-            icon: res.data.current.condition.icon,
-            condition: res.data.current.condition.text
+            error: false,
+            todaysWeather: res.data
           };
         });
 
@@ -48,30 +65,41 @@ class App extends React.Component {
             console.log(res.data.forecast.forecastday);
 
             this.setState({
-              forecastArr: res.data.forecast.forecastday
+              forecastArr: res.data.forecast.forecastday.slice(1),
+              error: false
             });
           });
+      })
+      .catch(function(err) {
+        console.error(err);
+        this.setState({ error: true });
       });
   }
 
   render() {
     return (
-      <div>
+      <div className="container">
         <Form
           fetchWeather={this.fetchWeather}
           // fetchForecast={this.fetchForecast}
         />
+        <ChangeDegreeTypeButton updateType={this.changeCelsiusOrFahrenheit} />
         <Weather
-          name={this.state.name}
-          region={this.state.region}
-          temperature={this.state.temperature}
-          condition={this.state.condition}
-          icon={this.state.icon}
+          todaysWeather={this.state.todaysWeather}
+          celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
+          error={this.state.error}
         />
-        <Forecast forecastArr={this.state.forecastArr} />
+        <Forecast
+          forecastArr={this.state.forecastArr}
+          celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
+        />
       </div>
     );
   }
 }
+
+// const ChangeDegreeTypeButton = ({ updateType }) => {
+//   return <button onClick={updateType}>change</button>;
+// };
 
 module.exports = App;

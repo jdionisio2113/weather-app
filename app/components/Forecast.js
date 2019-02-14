@@ -17,10 +17,17 @@ function Week(date) {
 
 function Forecast(props) {
   /**
-   * Iterate through this.props.date array.
+   * Iterate through this.props.forecastArr array.
    * For each item in the array, display the forcast
    *
    */
+
+  //   var value;
+  //   if (celsiusOrFahrenheit === " ºF") {
+  //     value = <p className="current-temp">{todaysWeather.current.temp_f}</p>;
+  //   } else {
+  //     value = <p className="current-temp">{todaysWeather.current.temp_c}</p>;
+  //   }
 
   var forecastArr = props.forecastArr;
   //   const { forecastArr } = props;
@@ -28,8 +35,22 @@ function Forecast(props) {
   if (forecastArr.length > 0) {
     return (
       <div>
-        <ul>
-          {forecastArr.map(function(dayObj) {
+        <div className="scrollmenu">
+          {forecastArr.map(function(dayObj, { celsiusOrFahrenheit }) {
+            var value;
+            if (celsiusOrFahrenheit === " ºF") {
+              value = (
+                <p className="forecast-item">
+                  {dayObj.day.mintemp_f} / {dayObj.day.maxtemp_f}
+                </p>
+              );
+            } else {
+              value = (
+                <li className="forecast-item">
+                  {dayObj.day.mintemp_c} / {dayObj.day.maxtemp_c}
+                </li>
+              );
+            }
             return (
               //   <li key={dayObj.date}>
               //     date: {dayObj.date}
@@ -38,18 +59,17 @@ function Forecast(props) {
               //   </li>
               <ul key={dayObj.date} className="forecast-container">
                 <h2 className="forecast-item">{Week(dayObj.date)}</h2>
-                <li className="forecast-item">
-                  {dayObj.day.maxtemp_f} / {dayObj.day.mintemp_f}
-                </li>
-                <li className="forecast-item">{dayObj.day.condition.text}</li>
                 <img
                   className="icon forecast-item"
                   src={dayObj.day.condition.icon}
                 />
+                {value}
+                <p>{celsiusOrFahrenheit}</p>
+                {/* <li className="forecast-item">{dayObj.day.condition.text}</li> */}
               </ul>
             );
           })}
-        </ul>
+        </div>
       </div>
     );
   } else {
@@ -58,22 +78,3 @@ function Forecast(props) {
 }
 
 module.exports = Forecast;
-
-// forecastArr: forecast.map(function(forecast) {
-//   return (
-//     <ul key={forecast.date} className="forecast-container">
-//       <h2 className="forecast-item">{Week(forecast.date)}</h2>
-//       <li className="forecast-item">
-//         {forecast.day.maxtemp_f} / {forecast.day.mintemp_f}
-//       </li>
-//       <li className="forecast-item">{forecast.day.condition.text}</li>
-//       <img className="icon forecast-item" src={forecast.day.condition.icon} />
-//     </ul>
-//   );
-// });
-
-var foo = [1, 2, 3, 4];
-
-var double = foo.map(function(num) {
-  return num * 2;
-});
