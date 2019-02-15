@@ -115,6 +115,10 @@ ul {
 .container {
   position: relative;
 }
+
+.forecast-temp {
+  color: grey;
+}
 /* .temp {
   display: flex;
 } */

@@ -41,14 +41,16 @@ function Forecast(props) {
             if (celsiusOrFahrenheit === "ºF") {
               temp = (
                 <p className="forecast-item">
-                  {dayObj.day.mintemp_f} / {dayObj.day.maxtemp_f}
+                  {dayObj.day.mintemp_f} {celsiusOrFahrenheit}/{" "}
+                  {dayObj.day.maxtemp_f} {celsiusOrFahrenheit}
                 </p>
               );
             } else {
               temp = (
-                <li className="forecast-item">
-                  {dayObj.day.mintemp_c} / {dayObj.day.maxtemp_c}
-                </li>
+                <p className="forecast-item">
+                  {dayObj.day.mintemp_c} {celsiusOrFahrenheit} /{" "}
+                  {dayObj.day.maxtemp_c} {celsiusOrFahrenheit}
+                </p>
               );
             }
             return (
@@ -57,16 +59,16 @@ function Forecast(props) {
               //     maxtemp:{dayObj.day.maxtemp_f}
               //     mintemp: {dayObj.day.mintemp_f}
               //   </li>
-              <ul key={dayObj.date} className="forecast-container">
+              <div className="forecast-container">
                 <h2 className="forecast-item">{Week(dayObj.date)}</h2>
                 <img
                   className="icon forecast-item"
                   src={dayObj.day.condition.icon}
                 />
-                {temp}
-                <p>{celsiusOrFahrenheit}</p>
+                <p>{temp}</p>
+                {/* <p className="forecast-temp">{celsiusOrFahrenheit}</p> */}
                 {/* <li className="forecast-item">{dayObj.day.condition.text}</li> */}
-              </ul>
+              </div>
             );
           })}
         </div>
