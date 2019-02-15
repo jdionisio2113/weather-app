@@ -32,10 +32,10 @@ class App extends React.Component {
   }
 
   changeCelsiusOrFahrenheit() {
-    if (this.state.celsiusOrFahrenheit === " ºF") {
-      this.setState({ celsiusOrFahrenheit: " ºC" });
+    if (this.state.celsiusOrFahrenheit === "ºF") {
+      this.setState({ celsiusOrFahrenheit: "ºC" });
     } else {
-      this.setState({ celsiusOrFahrenheit: " ºF" });
+      this.setState({ celsiusOrFahrenheit: "ºF" });
     }
   }
 
@@ -83,12 +83,12 @@ class App extends React.Component {
           fetchWeather={this.fetchWeather}
           // fetchForecast={this.fetchForecast}
         />
-        <ChangeDegreeTypeButton updateType={this.changeCelsiusOrFahrenheit} />
         <Weather
           todaysWeather={this.state.todaysWeather}
           celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
           error={this.state.error}
         />
+        <ChangeDegreeTypeButton updateType={this.changeCelsiusOrFahrenheit} />
         <Forecast
           forecastArr={this.state.forecastArr}
           celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}

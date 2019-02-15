@@ -19,7 +19,7 @@ function Weather({ todaysWeather, error, celsiusOrFahrenheit }) {
                 */
     }
     var value;
-    if (celsiusOrFahrenheit === " ºF") {
+    if (celsiusOrFahrenheit === "ºF") {
       value = <p className="current-temp">{todaysWeather.current.temp_f}</p>;
     } else {
       value = <p className="current-temp">{todaysWeather.current.temp_c}</p>;

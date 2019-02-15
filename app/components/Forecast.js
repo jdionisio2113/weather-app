@@ -28,24 +28,24 @@ function Forecast(props) {
   //   } else {
   //     value = <p className="current-temp">{todaysWeather.current.temp_c}</p>;
   //   }
-
-  var forecastArr = props.forecastArr;
-  //   const { forecastArr } = props;
+  var { forecastArr, celsiusOrFahrenheit } = props;
+  //   var forecastArr = props.forecastArr;
+  //   var celsiusOrFahrenheit = props.celsiusOrFahrenheit;
 
   if (forecastArr.length > 0) {
     return (
       <div>
         <div className="scrollmenu">
-          {forecastArr.map(function(dayObj, { celsiusOrFahrenheit }) {
-            var value;
-            if (celsiusOrFahrenheit === " ºF") {
-              value = (
+          {forecastArr.map(function(dayObj) {
+            var temp;
+            if (celsiusOrFahrenheit === "ºF") {
+              temp = (
                 <p className="forecast-item">
                   {dayObj.day.mintemp_f} / {dayObj.day.maxtemp_f}
                 </p>
               );
             } else {
-              value = (
+              temp = (
                 <li className="forecast-item">
                   {dayObj.day.mintemp_c} / {dayObj.day.maxtemp_c}
                 </li>
@@ -63,7 +63,7 @@ function Forecast(props) {
                   className="icon forecast-item"
                   src={dayObj.day.condition.icon}
                 />
-                {value}
+                {temp}
                 <p>{celsiusOrFahrenheit}</p>
                 {/* <li className="forecast-item">{dayObj.day.condition.text}</li> */}
               </ul>
