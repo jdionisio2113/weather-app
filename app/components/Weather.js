@@ -28,7 +28,7 @@ function Weather({ todaysWeather, error, celsiusOrFahrenheit }) {
       temp = <p>FEELS LIKE:{todaysWeather.current.feelslike_c}º</p>;
     }
     return (
-      <div>
+      <div className="current_weather">
         <div className="column">
           {todaysWeather.location.name && todaysWeather.location.region && (
             <div className="location">

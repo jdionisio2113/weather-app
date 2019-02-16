@@ -5,8 +5,15 @@ var React = require("react");
 
 const Form = props => (
   <form onSubmit={props.fetchWeather}>
-    <input type="text" name="city" placeholder="Search" autoComplete="off" />
-    <button type="submit">Get Weather</button>
+    <input
+      type="text"
+      name="city"
+      placeholder="Los Angeles, CA"
+      autoComplete="off"
+    />
+    <button type="submit">
+      <i className="fa fa-search" aria-hidden="true" />
+    </button>
   </form>
 );
 

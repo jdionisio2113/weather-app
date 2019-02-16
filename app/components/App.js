@@ -44,35 +44,34 @@ class App extends React.Component {
     const city = e.target.elements.city.value;
 
     // axios.all([currentWeather(), weeklyForecast()]).then;
-
+    var current = `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`;
+    var forecast = `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`;
     axios
-      .get(`http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`)
+      .all([
+        axios.get(
+          `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`
+        ),
+        axios.get(
+          `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`
+        )
+      ])
       .then(res => {
-        console.log(res.data);
-        // console.log(res.data.location.name);
+        // axios.spread((current, forecast) => {
+        var current = res[0].data;
+        var forecast = res[1].data.forecast.forecastday;
+        console.log(current);
+        console.log(forecast);
         this.setState(function() {
           return {
             error: false,
-            todaysWeather: res.data
+            todaysWeather: current
           };
         });
-
-        axios
-          .get(
-            `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`
-          )
-          .then(res => {
-            console.log(res.data.forecast.forecastday);
-
-            this.setState({
-              forecastArr: res.data.forecast.forecastday.slice(1),
-              error: false
-            });
-          });
-      })
-      .catch(function(err) {
-        console.error(err);
-        this.setState({ error: true });
+        this.setState({
+          forecastArr: forecast.slice(1),
+          error: false
+        });
+        // });
       });
   }
 
