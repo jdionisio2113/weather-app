@@ -19,10 +19,13 @@ function Weather({ todaysWeather, error, celsiusOrFahrenheit }) {
                 */
     }
     var value;
+    var temp;
     if (celsiusOrFahrenheit === "ºF") {
       value = <p className="current-temp">{todaysWeather.current.temp_f}</p>;
+      temp = <p>FEELS LIKE:{todaysWeather.current.feelslike_f}º</p>;
     } else {
       value = <p className="current-temp">{todaysWeather.current.temp_c}</p>;
+      temp = <p>FEELS LIKE:{todaysWeather.current.feelslike_c}º</p>;
     }
     return (
       <div>
@@ -31,7 +34,6 @@ function Weather({ todaysWeather, error, celsiusOrFahrenheit }) {
             <div className="location">
               <h1 className="city">{todaysWeather.location.name}</h1>
               <h3 className="region">{todaysWeather.location.region}</h3>
-              <h5 className="today">Today</h5>
             </div>
           )}
           <div className="weather-container">
@@ -47,6 +49,30 @@ function Weather({ todaysWeather, error, celsiusOrFahrenheit }) {
                 {todaysWeather.current.condition.text}
               </p>
             </div>
+            <div className="weather-info">
+              <h5 className="today">Today</h5>
+            </div>
+          </div>
+        </div>
+        <div className="day-info">
+          <div className="info1">
+            {/* <h5 className="humidity">Humidity</h5> */}
+            <p>HUMIDITY: {todaysWeather.current.humidity}%</p>
+            {/* <h5>WIND</h5> */}
+            <p>
+              WIND: {todaysWeather.current.wind_dir}{" "}
+              {todaysWeather.current.wind_mph} mph
+            </p>
+          </div>
+          <div className="info2">
+            {/* <h5>VISIBILITY</h5> */}
+            <p>VISIBILITY: {todaysWeather.current.vis_miles} mi</p>
+            {/* <h5>FEELS LIKE</h5> */}
+            {temp}
+          </div>
+          <div className="info3">
+            <p>UV INDEX: {todaysWeather.current.uv}</p>
+            <p>PRECIPITATION: {todaysWeather.current.precip_in} in</p>
           </div>
         </div>
       </div>

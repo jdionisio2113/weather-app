@@ -59,13 +59,13 @@ function Forecast(props) {
               //     maxtemp:{dayObj.day.maxtemp_f}
               //     mintemp: {dayObj.day.mintemp_f}
               //   </li>
-              <div className="forecast-container">
+              <div key={dayObj.date} className="forecast-container">
                 <h2 className="forecast-item">{Week(dayObj.date)}</h2>
                 <img
                   className="icon forecast-item"
                   src={dayObj.day.condition.icon}
                 />
-                <p>{temp}</p>
+                {temp}
                 {/* <p className="forecast-temp">{celsiusOrFahrenheit}</p> */}
                 {/* <li className="forecast-item">{dayObj.day.condition.text}</li> */}
               </div>

@@ -67,7 +67,7 @@ ul {
 .weather-container {
   text-align: center;
   /* position: relative; */
-  margin: 0 2em 2em 2em;
+  margin: 0 2em 5em 2em;
 }
 
 .current-temp {
@@ -119,6 +119,32 @@ ul {
 .forecast-temp {
   color: grey;
 }
+
+.humidity {
+  margin: 0;
+}
+
+.day-info {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* justify-content: space-between; */
+}
+
+.info1 {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info2 {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info3 {
+  display: flex;
+  justify-content: space-around;
+}
+
 /* .temp {
   display: flex;
 } */
