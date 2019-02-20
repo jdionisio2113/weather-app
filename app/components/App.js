@@ -14,9 +14,9 @@ class App extends React.Component {
     this.state = {
       forecastArr: [],
       error: false,
-      // loading: true,
+      loading: false,
 
-      celsiusOrFahrenheit: " ºF" /* either "c" or "f" */,
+      celsiusOrFahrenheit: "ºF" /* either "c" or "f" */,
       todaysWeather: {}
     };
 
@@ -34,8 +34,9 @@ class App extends React.Component {
 
   fetchWeather(e) {
     e.preventDefault();
-    const city = e.target.elements.city.value;
+    this.setState({ loading: true });
 
+    const city = e.target.elements.city.value;
     axios
       .all([
         axios.get(
@@ -46,7 +47,6 @@ class App extends React.Component {
         )
       ])
       .then(res => {
-        // axios.spread((current, forecast) => {
         var current = res[0].data;
         var forecast = res[1].data.forecast.forecastday;
         console.log(current);
@@ -54,25 +54,24 @@ class App extends React.Component {
         this.setState(function() {
           return {
             error: false,
-            todaysWeather: current
-            // loading: false
+            todaysWeather: current,
+            loading: false
           };
         });
         this.setState({
           forecastArr: forecast.slice(1),
-          error: false
-          // loading: false
+          error: false,
+          loading: false
         });
-        // });
       });
   }
 
   render() {
-    // var loading = this.state.loading;
+    var loading = this.state.loading;
 
-    // if (loading === true) {
-    //   return <Loading />;
-    // }
+    if (loading === true) {
+      return <Loading />;
+    }
 
     // if (error) {
     //   return (
@@ -81,44 +80,29 @@ class App extends React.Component {
     //     </div>
     //   );
     // }
-    // if (loading === true) {
-    //   return <Loading />;
-    // } else {
+
     return (
       <div className="container">
         <Form
           fetchWeather={this.fetchWeather}
+          loading={this.state.loading}
           // fetchForecast={this.fetchForecast}
         />
-        {/* <ChangeDegreeTypeButton updateType={this.changeCelsiusOrFahrenheit} /> */}
-        {!this.state.todaysWeather ? (
-          <Loading />
-        ) : (
-          <Weather
-            todaysWeather={this.state.todaysWeather}
-            celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
-            error={this.state.error}
-            updateType={this.changeCelsiusOrFahrenheit}
-          />
-        )}
-        {/* <Weather
+
+        <Weather
           todaysWeather={this.state.todaysWeather}
           celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
           error={this.state.error}
-          // updateType={this.changeCelsiusOrFahrenheit}
-        /> */}
+          updateType={this.changeCelsiusOrFahrenheit}
+          loading={this.state.loading}
+        />
         <Forecast
           forecastArr={this.state.forecastArr}
           celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
         />
       </div>
     );
-    // }
   }
 }
-
-// const ChangeDegreeTypeButton = ({ updateType }) => {
-//   return <button onClick={updateType}>change</button>;
-// };
 
 module.exports = App;

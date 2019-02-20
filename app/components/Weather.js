@@ -1,30 +1,9 @@
 var React = require("react");
 var App = require("./App");
-
-// const ChangeDegreeTypeButton = ({ updateType }) => {
-//   return (
-//     <button className="unit-button" onClick={updateType}>
-//       change
-//     </button>
-//   );
-// };
+var Loading = require("./Loading");
 
 // class Weather extends React.Component {
-function Weather({
-  todaysWeather,
-  error,
-  celsiusOrFahrenheit,
-  updateType
-  //   changeCelsiusOrFahrenheit
-  // ChangeDegreeTypeButton
-}) {
-  //   changeCelsiusOrFahrenheit() {
-  //     if ({celsiusOrFahrenheit} === "ºF") {
-  //       this.setState({ celsiusOrFahrenheit: "ºC" });
-  //     } else {
-  //       this.setState({ celsiusOrFahrenheit: "ºF" });
-  //     }
-  //   }
+function Weather({ todaysWeather, error, celsiusOrFahrenheit, updateType }) {
   // if todaysWeather is an empty object
   // dont attempt to renderk html
   //   if stement, storevariable, calls
@@ -65,12 +44,11 @@ function Weather({
               src={todaysWeather.current.condition.icon}
             />
             <button className="unit-button" onClick={updateType}>
-              change
+              {celsiusOrFahrenheit}
             </button>
-
             <div className="curr-weather-info">
               {value}
-              <p className="current-temp">{celsiusOrFahrenheit}</p>
+              <p className="current-temp">º</p>
               <p className="current-condition">
                 {todaysWeather.current.condition.text}
               </p>

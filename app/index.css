@@ -59,9 +59,9 @@ ul {
   text-decoration: none;
 }
 
-.location {
+/* .location {
   margin: 2em;
-}
+} */
 
 .region {
   margin: 0;
@@ -111,8 +111,18 @@ ul {
 
 .unit-button {
   position: absolute;
-  top: 10%;
-  left: 80%;
+  top: 15%;
+  left: 75%;
+  font-size: 1.4em;
+  background-color: #b6b4b4; /* Green */
+  border: none;
+  border-radius: 15%;
+  color: #4c4a4a;
+  padding: 6px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  /* font-size: 16px; */
 }
 
 .container {
