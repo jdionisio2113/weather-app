@@ -7,13 +7,18 @@ var Loading = require("./Loading");
 
 var apiKey = "fc574e0b7722432589364140190802";
 
+function handleError(error) {
+  console.warn(error);
+  return null;
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       forecastArr: [],
-      error: false,
+      error: null,
       loading: false,
 
       celsiusOrFahrenheit: "ºF" /* either "c" or "f" */,
@@ -22,6 +27,54 @@ class App extends React.Component {
 
     this.fetchWeather = this.fetchWeather.bind(this);
     this.changeCelsiusOrFahrenheit = this.changeCelsiusOrFahrenheit.bind(this);
+    this.usersLocationData = this.usersLocationData.bind(this);
+  }
+
+  usersLocationData(current, forecast) {
+    axios
+      .all([axios.get(current), axios.get(forecast)])
+      .then(res => {
+        // console.warn(res);
+        var currentDay = res[0].data;
+        var forecast = res[1].data.forecast.forecastday;
+        // if (currentDay === null) {
+        //   return this.setState(function() {
+        //     return {
+        //       error:
+        //         "Looks like there was an error. Check that both users exist on Github.",
+        //       loading: false
+        //     };
+        //   });
+        // }
+        // console.log(current);
+        // console.log(forecast);
+        this.setState(function() {
+          return {
+            error: null,
+            todaysWeather: currentDay,
+            loading: false
+          };
+        });
+        this.setState({
+          forecastArr: forecast.slice(1),
+          error: null,
+          loading: false
+        });
+      })
+      .catch(handleError);
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true });
+    navigator.geolocation.getCurrentPosition(position => {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+      // console.log(lon, lat);
+      this.usersLocationData(
+        `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`,
+        `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${lat},${lon}&days=7`
+      );
+    });
   }
 
   changeCelsiusOrFahrenheit() {
@@ -35,39 +88,16 @@ class App extends React.Component {
   fetchWeather(e) {
     e.preventDefault();
     this.setState({ loading: true });
-
     const city = e.target.elements.city.value;
-    axios
-      .all([
-        axios.get(
-          `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`
-        ),
-        axios.get(
-          `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`
-        )
-      ])
-      .then(res => {
-        var current = res[0].data;
-        var forecast = res[1].data.forecast.forecastday;
-        console.log(current);
-        console.log(forecast);
-        this.setState(function() {
-          return {
-            error: false,
-            todaysWeather: current,
-            loading: false
-          };
-        });
-        this.setState({
-          forecastArr: forecast.slice(1),
-          error: false,
-          loading: false
-        });
-      });
+    this.usersLocationData(
+      `http://api.apixu.com/v1/current.json?key=${apiKey}&q=${city}`,
+      `http://api.apixu.com/v1/forecast.json?key=${apiKey}&q=${city}&days=7`
+    );
   }
 
   render() {
     var loading = this.state.loading;
+    // var error = this.state.error;
 
     if (loading === true) {
       return <Loading />;
@@ -83,16 +113,11 @@ class App extends React.Component {
 
     return (
       <div className="container">
-        <Form
-          fetchWeather={this.fetchWeather}
-          loading={this.state.loading}
-          // fetchForecast={this.fetchForecast}
-        />
-
+        <Form fetchWeather={this.fetchWeather} />
         <Weather
           todaysWeather={this.state.todaysWeather}
           celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
-          error={this.state.error}
+          // error={this.state.error}
           updateType={this.changeCelsiusOrFahrenheit}
           loading={this.state.loading}
         />
