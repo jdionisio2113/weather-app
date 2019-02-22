@@ -5,7 +5,7 @@ var React = require("react");
 var Loading = require("./Loading");
 
 const Form = props => (
-  <form onSubmit={props.fetchWeather}>
+  <form onSubmit={props.fetchWeather} className="searchInput">
     <input
       type="text"
       name="city"

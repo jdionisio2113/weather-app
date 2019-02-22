@@ -41,7 +41,7 @@ class App extends React.Component {
         //   return this.setState(function() {
         //     return {
         //       error:
-        //         "Looks like there was an error. Check that both users exist on Github.",
+        //         "Looks like there was an error.",
         //       loading: false
         //     };
         //   });
@@ -114,17 +114,19 @@ class App extends React.Component {
     return (
       <div className="container">
         <Form fetchWeather={this.fetchWeather} />
-        <Weather
-          todaysWeather={this.state.todaysWeather}
-          celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
-          // error={this.state.error}
-          updateType={this.changeCelsiusOrFahrenheit}
-          loading={this.state.loading}
-        />
-        <Forecast
-          forecastArr={this.state.forecastArr}
-          celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
-        />
+        <div className="weatherContainer">
+          <Weather
+            todaysWeather={this.state.todaysWeather}
+            celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
+            // error={this.state.error}
+            updateType={this.changeCelsiusOrFahrenheit}
+            loading={this.state.loading}
+          />
+          <Forecast
+            forecastArr={this.state.forecastArr}
+            celsiusOrFahrenheit={this.state.celsiusOrFahrenheit}
+          />
+        </div>
       </div>
     );
   }

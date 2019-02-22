@@ -41,7 +41,7 @@ function Forecast(props) {
             if (celsiusOrFahrenheit === "ºF") {
               temp = (
                 <p className="forecast-item">
-                  {dayObj.day.mintemp_f} {celsiusOrFahrenheit}/{" "}
+                  {dayObj.day.mintemp_f} {celsiusOrFahrenheit} /{" "}
                   {dayObj.day.maxtemp_f} {celsiusOrFahrenheit}
                 </p>
               );
