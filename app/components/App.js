@@ -4,8 +4,7 @@ var Weather = require("./Weather");
 var axios = require("axios");
 var Forecast = require("./Forecast");
 var Loading = require("./Loading");
-
-var apiKey = "fc574e0b7722432589364140190802";
+const apiKey = require("./utils/apiKey");
 
 function handleError(error) {
   console.warn(error);

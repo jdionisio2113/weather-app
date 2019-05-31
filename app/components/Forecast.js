@@ -22,12 +22,6 @@ function Forecast(props) {
    *
    */
 
-  //   var value;
-  //   if (celsiusOrFahrenheit === " ºF") {
-  //     value = <p className="current-temp">{todaysWeather.current.temp_f}</p>;
-  //   } else {
-  //     value = <p className="current-temp">{todaysWeather.current.temp_c}</p>;
-  //   }
   var { forecastArr, celsiusOrFahrenheit } = props;
   //   var forecastArr = props.forecastArr;
   //   var celsiusOrFahrenheit = props.celsiusOrFahrenheit;
